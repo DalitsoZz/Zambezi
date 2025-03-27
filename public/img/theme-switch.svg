@@ -1,0 +1,12 @@
+<svg
+  id="theme-switch"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 100 50"
+  width="100"
+  height="50"
+  role="button"
+  style="cursor: pointer;"
+>
+  <rect x="0" y="0" width="100" height="50" rx="25" ry="25" fill="#ddd" />
+  <circle cx="25" cy="25" r="20" fill="#fff" class="switch-circle" />
+</svg>

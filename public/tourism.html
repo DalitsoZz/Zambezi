@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/styles.css" rel="stylesheet"> <!-- Link to your CSS file -->
+    <title>Tourism</title>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Start header -->
+        <header>
+            <div class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="row">
+                        <!-- Heading Section -->
+                        <div class="col-md-3">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle mobile-navbar-icon" data-toggle="collapse" data-target=".mobile-navbar-expand">
+                                    &#9776; <!-- Menu icon -->
+                                </button>
+                                <a class="navbar-brand" href="index.html" id="logo"><h1>Zambezi.com</h1></a>
+                            </div>
+                        </div>
+                        <!-- Navigation Links -->
+                        <div class="col-md-9">
+                            <div class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="index.html">News</a></li>
+                                    <li><a href="tourism.html">Tourism</a></li>
+                                    <li><a href="scholarships.html">Scholarships</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+        <!-- End header -->
+
+        <!-- Search Bar Section -->
+        <section id="search-section">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="tourism-search" placeholder="Search destinations, tips, or guides...">
+                    <button type="button" id="search-btn">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Destinations Section -->
+        <section id="featured-destinations">
+            <div class="container">
+                <h2>Featured Destinations</h2>
+                <div id="featured-destinations-carousel" class="carousel">
+                    <div class="carousel-inner">
+                        <!-- Destination items will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Travel Guides Section -->
+        <section id="popular-travel-guides">
+            <div class="container">
+                <h2>Popular Travel Guides</h2>
+                <div id="trending-travel-guides">
+                    <!-- Travel guides will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button disabled>&laquo; Previous</button>
+            <span>Page 1 of 10</span>
+            <button>Next &raquo;</button>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; 2024 Zambezi.com. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="footer-nav">
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End footer -->
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/tourism.js"></script> <!-- Link to the tourism.js file -->
+</body>
+</html>

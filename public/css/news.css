@@ -1,0 +1,146 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    background: #00bcd4;
+    color:  #36454F;
+    padding: 1rem 0;
+}
+
+#logo h1 {
+    font-size: 2rem;
+    margin: 0;
+    color:  #36454F;
+}
+
+.navbar-nav {
+    margin-top: 1rem;
+}
+
+.navbar-nav li a {
+    color: #36454F;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navbar-nav li a:hover {
+    background-color: #008c9e;
+    color:  #36454F;
+}
+
+.mobile-navbar-icon {
+    color:  #36454F;
+    font-size: 1.5rem;
+}
+
+.mobile-navbar-expand {
+    display: none;
+    background: #00bcd4;
+    padding: 1rem;
+}
+
+.mobile-navbar-expand ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-navbar-expand ul li a {
+    color:  #36454F;
+    display: block;
+    padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .mobile-navbar-expand {
+        display: block;
+    }
+
+    .navbar-collapse {
+        display: none;
+    }
+}
+
+/* Main Content Styling */
+#news-detail {
+    background-color: #fff;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+#news-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#news-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #00bcd4;
+    border-bottom: 2px solid #00bcd4;
+    padding-bottom: 0.5rem;
+}
+
+#news-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+#news-content .date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+.footer-nav {
+    list-style: none;
+    padding: 0;
+    text-align: right;
+}
+
+.footer-nav li {
+    display: inline;
+    margin-left: 1rem;
+}
+
+.footer-nav li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-nav li a:hover {
+    text-decoration: underline;
+}
+
+/* Utility Classes */
+.aligncenter {
+    text-align: center;
+}
+

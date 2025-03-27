@@ -1,0 +1,66 @@
+{
+  "name": "express-postgres-template",
+  "version": "1.0.0",
+  "description": "CRUD application using NodeJs with Express framework, PostgreSQL as database, Sequeslize as ORM. Application uses Rollbar for error tracking, NewRelic for APIs analysis, Postman APIs collection for testing APIs, and eslint, husky, and lint-staged for code-linting purposes.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node .",
+    "migration:generate": "npx sequelize migration:generate --name test",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:migrate:undo": "npx sequelize db:migrate:undo",
+    "db:seed:all": "npx sequelize db:seed:all",
+    "db:seed:undo:all": "npx sequelize db:seed:undo:all",
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretest"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "./node_modules/.bin/eslint — fix",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-vishal-kumar/express-postgres-template"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "postgres",
+    "postgresql",
+    "sequelize",
+    "rollbar",
+    "newrelic",
+    "postman-collection",
+    "eslint",
+    "husky",
+    "lint-staged"
+  ],
+  "author": "Vishal Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-body-parser-json-error": "^0.1.0",
+    "express-validator": "^6.6.1",
+    "newrelic": "^6.12.0",
+    "path": "^0.12.7",
+    "pg": "^8.3.0",
+    "rollbar": "^2.19.2",
+    "sequelize": "^6.3.4",
+    "sequelize-cli": "^6.2.0",
+    "sequelize-log-syntax-colors": "^2.0.0",
+    "sql-formatter": "^2.3.3",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0"
+  }
+}
