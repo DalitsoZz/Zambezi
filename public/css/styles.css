@@ -1,3 +1,12 @@
+/* CSS Variables */
+:root {
+    --primary-color: #2c5530;
+    --secondary-color: #f4a261;
+    --accent-color: #e76f51;
+    --dark-color: #264653;
+    --light-color: #f8f9fa;
+}
+
 /* General Reset */
 body, h1, h2, h3, p, ul, li {
     margin: 0;
@@ -7,7 +16,7 @@ body, h1, h2, h3, p, ul, li {
 
 /* Body Styling */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #333;
     background: #ffffff;
     line-height: 1.6;
@@ -55,8 +64,6 @@ header a:hover {
 .navbar .navbar-nav li a:hover {
     background-color: #008c9e;
     border-radius: 5px;
-}
-
 }
 
 /* Search Bar Styling */
@@ -474,4 +481,194 @@ footer p {
 
 .footer-nav li a:hover {
     text-decoration: underline;
+}
+
+/* Modern UI Styles for Scholarships Page */
+:root {
+    --primary-color: #2c5530;
+    --secondary-color: #f4a261;
+    --accent-color: #e76f51;
+    --dark-color: #264653;
+    --light-color: #f8f9fa;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--primary-color) !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+    color: white;
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--secondary-color);
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--dark-color);
+    transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.footer {
+    background: var(--dark-color);
+    color: white;
+    padding: 50px 0 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--secondary-color);
+}
+
+.stats-card {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+    color: white;
+    border-radius: 15px;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-container .form-control {
+    border-radius: 25px 0 0 25px;
+    border: 2px solid var(--primary-color);
+    padding: 15px 20px;
+}
+
+.search-container .btn {
+    border-radius: 0 25px 25px 0;
+    padding: 15px 30px;
+}
+
+/* Scholarship specific styles */
+.scholarship-item {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.scholarship-item:hover {
+    transform: translateY(-5px);
+}
+
+.scholarship-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.scholarship-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.scholarship-title a:hover {
+    text-decoration: underline;
+}
+
+.scholarship-summary {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.date {
+    color: #999;
+    font-size: 0.9rem;
 }

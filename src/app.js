@@ -1,144 +1,151 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const path = require('path');
-const logger = require('./middleware/logger'); // Import logger middleware
-const authenticate = require('./middleware/authenticate'); // Import authenticate middleware
-const pool = require('./config/db'); // Import PostgreSQL client
-const cors = require('cors'); // Import CORS middleware
+const logger = require('./middleware/logger');
+const authenticate = require('./middleware/authenticate');
+const pool = require('./config/db');
+const cors = require('cors');
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to parse JSON
+// Middleware
 app.use(express.json());
-app.use(cors()); // Enable CORS
-
-// Use middleware globally
-app.use(logger); // Log every request
-
-// Serve static files (HTML, CSS, JS) from the 'public' directory
+app.use(cors());
+app.use(logger);
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Route for the home page
+// Page Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// Route for /tourism
 app.get('/tourism', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
 });
 
-// Route for /scholarships
 app.get('/scholarships', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'scholarships.html'));
 });
 
-// Example protected route
+// Protected route example
 app.get('/protected', authenticate, (req, res) => {
   res.send('This is a protected route');
 });
 
-// CRUD Routes for News Articles
-app.get('/api/index', async (req, res) => { // Changed route from /api/news to /api/index
+// API Routes for News Articles
+app.get('/api/index', async (req, res) => {
   try {
-    console.log('Fetching all news articles...');
-    const result = await pool.query('SELECT * FROM news_articles');
-    console.log('News articles fetched:', result.rows);
+    const result = await pool.query('SELECT * FROM news_articles ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-app.get('/api/index/:id', async (req, res) => { // Changed route from /api/news/:id to /api/index/:id
+app.get('/api/index/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    console.log(`Fetching news article with ID: ${id}`);
     const result = await pool.query('SELECT * FROM news_articles WHERE id = $1', [id]);
-    console.log('News article fetched:', result.rows[0]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'News article not found' });
+    }
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-app.post('/api/index', async (req, res) => { // Changed route from /api/news to /api/index
+app.post('/api/index', async (req, res) => {
   const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Title and content are required' });
+  }
   try {
-    console.log('Inserting new news article...');
-    const result = await pool.query('INSERT INTO news_articles (title, content) VALUES ($1, $2) RETURNING *', [title, content]);
-    console.log('News article inserted:', result.rows[0]);
+    const result = await pool.query(
+      'INSERT INTO news_articles (title, content, created_at) VALUES ($1, $2, NOW()) RETURNING *', 
+      [title, content]
+    );
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-app.put('/api/index/:id', async (req, res) => { // Changed route from /api/news/:id to /api/index/:id
+app.put('/api/index/:id', async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Title and content are required' });
+  }
   try {
-    console.log(`Updating news article with ID: ${id}`);
-    const result = await pool.query('UPDATE news_articles SET title = $1, content = $2 WHERE id = $3 RETURNING *', [title, content, id]);
-    console.log('News article updated:', result.rows[0]);
+    const result = await pool.query(
+      'UPDATE news_articles SET title = $1, content = $2, updated_at = NOW() WHERE id = $3 RETURNING *', 
+      [title, content, id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'News article not found' });
+    }
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-app.delete('/api/index/:id', async (req, res) => { // Changed route from /api/news/:id to /api/index/:id
+app.delete('/api/index/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    console.log(`Deleting news article with ID: ${id}`);
-    await pool.query('DELETE FROM news_articles WHERE id = $1', [id]);
-    console.log(`News article with ID: ${id} deleted`);
+    const result = await pool.query('DELETE FROM news_articles WHERE id = $1 RETURNING id', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'News article not found' });
+    }
     res.status(204).send();
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-// CRUD Routes for Tourism
+// API Routes for Tourism
 app.get('/api/tourism', async (req, res) => {
   try {
-    console.log('Fetching all tourism entries...');
-    const result = await pool.query('SELECT * FROM tourism');
-    console.log('Tourism entries fetched:', result.rows);
+    const result = await pool.query('SELECT * FROM tourism ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-// CRUD Routes for Scholarships
+// API Routes for Scholarships
 app.get('/api/scholarships', async (req, res) => {
   try {
-    console.log('Fetching all scholarships...');
-    const result = await pool.query('SELECT * FROM scholarships');
-    console.log('Scholarships fetched:', result.rows);
+    const result = await pool.query('SELECT * FROM scholarships ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (error) {
     console.error('Database query error:', error.message);
-    res.status(500).send('Database query error');
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
-// Handle 404 - Resource Not Found
-app.use((req, res, next) => {
-  res.status(404).send('404: Page Not Found');
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({ error: '404: Page Not Found' });
 });
 
-// Start the server
+// Global Error Handler
+app.use((error, req, res, next) => {
+  console.error('Unhandled error:', error);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
