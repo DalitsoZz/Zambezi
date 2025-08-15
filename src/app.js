@@ -23,9 +23,6 @@ app.get('/', (req, res) => {
 });
 
 // Redirect routes without .html to .html versions
-app.get('/tourism', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
-});
 
 app.get('/news-detail', (req, res) => {
   res.redirect('/news-detail.html');

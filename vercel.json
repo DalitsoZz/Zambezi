@@ -8,10 +8,6 @@
   ],
   "routes": [
     {
-      "src": "/tourism",
-      "dest": "/public/tourism.html"
-    },
-    {
       "src": "/(.*)",
       "dest": "/api/index.js"
     }
