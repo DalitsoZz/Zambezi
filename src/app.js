@@ -139,13 +139,24 @@ app.use((req, res) => {
   res.status(404).json({ error: '404: Page Not Found' });
 });
 
+// Catch-all route for any other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
 // Global Error Handler
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
-  console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Export for Vercel
+module.exports = app;
+
+// Only listen if not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`🚀 Server running on port ${port}`);
+    console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
