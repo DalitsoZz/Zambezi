@@ -26,8 +26,8 @@ app.get('/tourism', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
 });
 
-app.get('/scholarships', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'scholarships.html'));
+app.get('/news-detail', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'news-detail.html'));
 });
 
 // Protected route example

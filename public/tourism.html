@@ -7,14 +7,17 @@
     <meta name="description" content="Discover amazing tourism destinations across Africa" />
     <meta name="author" content="Zambezi.com" />
     
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- AOS Animation Library - Load asynchronously -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
     <!-- Custom CSS -->
     <style>
         :root {
@@ -199,6 +202,37 @@
             margin-bottom: 0.5rem;
         }
         
+        /* Lazy loading styles */
+        .lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+            background-color: #f8f9fa;
+            background-image: linear-gradient(45deg, transparent 35%, rgba(255,255,255,.5) 50%, transparent 65%);
+            background-size: 20px 20px;
+            animation: loading 1.5s infinite;
+        }
+        
+        .lazy[src] {
+            opacity: 1;
+            background: none;
+            animation: none;
+        }
+        
+        @keyframes loading {
+            0% { background-position: -20px 0; }
+            100% { background-position: 20px 0; }
+        }
+        
+        /* Performance optimizations */
+        img {
+            content-visibility: auto;
+        }
+        
+        /* Critical above-the-fold content */
+        .hero-section {
+            contain: layout style paint;
+        }
+        
         /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             .hero-section {
@@ -338,7 +372,10 @@
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
                     <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="African Safari Wildlife" class="img-fluid rounded-3 shadow">
+                         alt="African Safari Wildlife" 
+                         class="img-fluid rounded-3 shadow"
+                         loading="lazy"
+                         decoding="async">
                 </div>
             </div>
         </div>
@@ -592,17 +629,39 @@
     </footer>
 
     <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <!-- SweetAlert2 for notifications -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <!-- Custom JavaScript -->
-    <script>
+    <script defer>
         // Initialize AOS animations
-        AOS.init({
-            duration: 1000,
-            once: true
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+            
+            loadDestinations();
+            
+            // Trigger stats animation when in view
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumbers();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            const statsSection = document.querySelector('.stats-card');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
         });
 
         // Animate stats numbers
@@ -678,7 +737,13 @@
             const destinationsHTML = filteredDestinations.map(destination => `
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
                     <div class="card destination-card h-100">
-                        <img src="${destination.image}" class="card-img-top" alt="${destination.name}">
+                        <img data-src="${destination.image}" 
+                             class="card-img-top lazy" 
+                             alt="${destination.name}"
+                             loading="lazy"
+                             decoding="async"
+                             width="400"
+                             height="250">
                         <div class="destination-overlay">
                             <div class="destination-info">
                                 <h5 class="mb-1">${destination.name}</h5>
@@ -696,6 +761,23 @@
             `).join('');
             
             container.innerHTML = destinationsHTML;
+            
+            // Setup lazy loading for destination images
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            // Observe all lazy images in the container
+            container.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
         }
 
         // Filter functionality
