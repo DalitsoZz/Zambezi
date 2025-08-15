@@ -9,8 +9,7 @@
   "routes": [
     {
       "src": "/tourism",
-      "status": 301,
-      "headers": { "Location": "/tourism.html" }
+      "dest": "/public/tourism.html"
     },
     {
       "src": "/(.*)",
