@@ -22,6 +22,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
+// Redirect routes without .html to .html versions
+app.get('/tourism', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
+});
+
+app.get('/news-detail', (req, res) => {
+  res.redirect('/news-detail.html');
+});
+
+// Main page routes with .html extensions
 app.get('/tourism.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
 });
