@@ -22,11 +22,21 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
+// Tourism routes - handle both with and without .html extension
 app.get('/tourism', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
 });
 
+app.get('/tourism.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'tourism.html'));
+});
+
+// News detail routes - handle both with and without .html extension
 app.get('/news-detail', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'news-detail.html'));
+});
+
+app.get('/news-detail.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'news-detail.html'));
 });
 
