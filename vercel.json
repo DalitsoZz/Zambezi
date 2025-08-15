@@ -8,6 +8,11 @@
   ],
   "routes": [
     {
+      "src": "/tourism",
+      "status": 301,
+      "headers": { "Location": "/tourism.html" }
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.js"
     }
